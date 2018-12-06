@@ -1,0 +1,28 @@
+docker create \
+--name=jackett \
+-v /Users/pablo/Docker/jackett/config:/config \
+-v /Users/pablo/Docker/torrents:/downloads \
+-e PGID=1001 -e PUID=1001 \
+-e TZ=America/Bogota \
+-p 9117:9117 \
+linuxserver/jackett
+
+docker create \
+--name=sonarr \
+-v /Users/pablo/Docker/sonarr/config:/config \
+-v /Volumes/TV:/tv \
+-v /Users/pablo/Docker/downloads:/downloads \
+-e PGID=1001 -e PUID=1001 \
+-e TZ=America/Bogota \
+-p 8989:8989 \
+linuxserver/sonarr
+
+docker create \
+--name=radarr \
+-v /Users/pablo/Docker/radarr/config:/config \
+-v /Volumes/Peliculas:/movies \
+-v /Users/pablo/Docker/downloads:/downloads \
+-e PGID=1001 -e PUID=1001 \
+-e TZ=America/Bogota \
+-p 7878:7878 \
+linuxserver/radarr
