@@ -10,6 +10,7 @@ brew cask install qbittorrent
 brew cask install spotify
 brew cask install keka
 brew cask install iina
+brew cask install zeplin
 brew cask install adobe-creative-cloud
 # This is needed to be able to finish the Creative Cloud setup
 open '/usr/local/Caskroom/adobe-creative-cloud/latest/Creative Cloud Installer.app'

@@ -262,6 +262,10 @@ sudo touch /Private/var/vm/sleepimage
 # ...and make sure it can’t be rewritten
 sudo chflags uchg /Private/var/vm/sleepimage
 
+# Disable the sudden motion sensor as it’s not useful for SSDs
+sudo pmset -a sms 0
+print_success "Sudden motion sensor disabled (SSDs not needed)."
+
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################

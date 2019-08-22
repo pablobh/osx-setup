@@ -15,34 +15,66 @@
 # settings we’re about to change
 osascript -e 'tell application "System Preferences" to quit'
 
-# Ask for the administrator password upfront
-sudo -v
-
-# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
-# Update the system and install the basic 
-sudo softwareupdate -i -a
-xcode-select --install
-
-sh /src/brew.sh
-sh /src/brew-dev.sh
-sh /src/cask.sh
-sh /src/cask-qlplugins.sh
-sh /src/cask-dev.sh
+echo "\e[96mOSX Setup Script"
+echo "Write the package you would like to install"
+echo "\e[1mmini - The basic things to get your system ready"
+echo "\e[1mdev - Mini + Developer stuff"
+echo "\e[1mdesign - Mini + Designer stuff"
+echo "\e[1mextra - Extra nice things"
+echo "\e[1mfull - The whole thing"
+echo "\e[1mlist - Print a list of all the things included in each package"
+echo "\e[1mquit - Quit the script"
+while :
+do
+  read INPUT_STRING
+  case $INPUT_STRING in
+	mini)
+		echo "Installing mini package"
+        ./src/mini.sh
+		;;
+	dev)
+		echo "Installing dev package"
+        ./src/dev.sh
+		;;
+	design)
+		echo "Installing design package"
+        ./src/design.sh
+		;;
+	extra)
+		echo "Installing extra package"
+        ./src/extra.sh
+		;;
+	full)
+		echo "Installing full package"
+        ./src/full.sh
+		;;
+	list)
+		echo "Listing packages availables to install"
+        ./src/list.sh
+		break
+		;;
+	quit)
+		echo "Listing packages availables to install"
+        exit
+		break
+		;;
+	*)
+		echo "Sorry, I don't understand"
+		;;
+  esac
+done
+echo 
+echo "That's all folks!"
 
 # Cleanup
 brew cleanup
 
-# Enable install from all sources
-sudo spctl --master-disable
-
 # Upgrade PIP and Setuptools
 pip install --upgrade pip setuptools
 
-sh /src/macOS-prefs.sh
-sh /src/git-config.sh
-sh /src/zsh-config.sh
+./src/macOS-prefs.sh
+./src/git-config.sh
+./src/zsh-ohmyzsh.sh
 
 
 #-------------------------------
@@ -73,12 +105,5 @@ echo '.Spotlight-V100' >> ~/.gitignore
 echo '.Trashes' >> ~/.gitignore
 echo '[core]' >> ~/.gitconfig
 echo 'excludesfile = ~/.gitignore' >> ~/.gitconfig
-
-# Oh my ZSH
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-exit
-curl -L -o ~/.oh-my-zsh/custom/themes/materialshell.zsh-theme https://raw.githubusercontent.com/carloscuesta/materialshell/master/materialshell.zsh
-rm ~/.zshrc
-cp zshconfig ~/.zshrc
 
 printf "Done! You now need to logout and login again so that all the new settings work.\n"
